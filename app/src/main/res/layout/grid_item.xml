@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="0dp"
+    android:layout_height="250dp"
+    android:id="@+id/grid_item_view">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/poster"
+        android:contentDescription="Images"
+        android:src="@mipmap/ic_launcher"
+        android:layout_margin="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
+
+
+</android.support.constraint.ConstraintLayout>
