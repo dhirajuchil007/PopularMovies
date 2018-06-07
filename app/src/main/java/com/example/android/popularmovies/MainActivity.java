@@ -26,6 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -80,6 +83,18 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
     }
+    public boolean isOnline() {
+        try {
+            int timeoutMs = 1500;
+            Socket sock = new Socket();
+            SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
+
+            sock.connect(sockaddr, timeoutMs);
+            sock.close();
+
+            return true;
+        } catch (IOException e) { return false; }
+    }
 
     @Override
     protected void onDestroy() {
@@ -94,10 +109,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             URL searchURL=urls[0];
             MovieObject[] androidAdapter;
             String mResults=null;
-            try {
-                mResults=NetworkUtils.getResponseFromHttpUrl(searchURL);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(isOnline()) {
+                try {
+                    mResults = NetworkUtils.getResponseFromHttpUrl(searchURL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else
+            {
+
+                return null;
             }
             if(mResults!=null)
             {
@@ -144,10 +166,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             super.onPostExecute(results);
         //    Log.d("path",results[19].title);
              gd=(GridView)findViewById(R.id.grid_view_movies);
-            Log.d("array", "onPostExecute:"+results[0].imgPath);
-            Log.d("array", "onPostExecute:"+results[1].imgPath);
+          //  Log.d("array", "onPostExecute:"+results[0].imgPath);
+            //Log.d("array", "onPostExecute:"+results[1].imgPath);
             if(results!=null)
-            {adapter=new MovieAdapter(results,MainActivity.this);
+            {
+                adapter=new MovieAdapter(results,MainActivity.this);
             gd.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
@@ -160,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 }
             });
+            }
+            else {
+                Toast toast=Toast.makeText(MainActivity.this,getString(R.string.no_internet_error_msg),Toast.LENGTH_SHORT);
+                toast.show();
             }
 
         }
