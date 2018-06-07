@@ -2,6 +2,7 @@ package com.example.android.popularmovies.utils;
 
 import android.content.res.Resources;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.android.popularmovies.R;
 
@@ -15,24 +16,35 @@ import java.util.Scanner;
 public class NetworkUtils {
     final static String BASE_QUERY="https://api.themoviedb.org/3/discover/movie";
     final static String SORT="sort_by";
-    final static  String sortby="popularity.desc";
+  //  final static  String sortby="popularity.desc";
     final static String API_KEY="api_key";
 
-    public static URL getUrl(String apikey) {
+    public static URL getUrl(String apikey,String sort) {
         // COMPLETED (1) Fill in this method to build the proper Github query URL
-        Uri builtUri = Uri.parse(BASE_QUERY).buildUpon()
+        Uri builtUri;
+        if(sort.equals("popularity.desc")) {
+             builtUri = Uri.parse(BASE_QUERY).buildUpon()
 
-                .appendQueryParameter(SORT, sortby)
-                .appendQueryParameter(API_KEY,apikey)
-                .build();
+                    .appendQueryParameter(SORT, sort)
+                    .appendQueryParameter(API_KEY, apikey)
+                    .build();
+        }
+        else
+        {
 
+            builtUri = Uri.parse(BASE_QUERY.replace("/discover","")+"/top_rated").buildUpon()
+
+
+                    .appendQueryParameter(API_KEY, apikey)
+                    .build();
+        }
         URL url = null;
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
+        Log.d("URL", "getUrl: "+url);
         return url;
     }
     public static String getResponseFromHttpUrl(URL url) throws IOException {
