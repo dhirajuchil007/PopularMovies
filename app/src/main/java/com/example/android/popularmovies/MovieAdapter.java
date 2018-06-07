@@ -11,14 +11,14 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 public class MovieAdapter extends BaseAdapter {
-    MovieObject mv[];
-    Context context;
-    String BASE_URL="http://image.tmdb.org/t/p/w185/";
-LayoutInflater inflater;
+    private MovieObject[] mv;
+    private Context context;
+    private String BASE_URL="http://image.tmdb.org/t/p/w185/";
+private LayoutInflater inflater;
     public MovieAdapter(MovieObject[] mv, Context c) {
         this.mv = mv;
         this.context = c;
-        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -39,7 +39,7 @@ LayoutInflater inflater;
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.grid_item, parent, false);
 
 

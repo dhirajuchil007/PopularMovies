@@ -23,9 +23,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             }
         }
     }
-    public void  setPreferenceSummary(Preference p,Object value){
+    private void  setPreferenceSummary(Preference p, Object value){
         String val=value.toString();
-        String key=p.getKey();
+
         if(p instanceof ListPreference)
         {
             ListPreference listPreference=(ListPreference)p;

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DetailsAcitvity extends AppCompatActivity {
-    String BASE_URL="http://image.tmdb.org/t/p/w185/";
+    private String BASE_URL="http://image.tmdb.org/t/p/w185/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,7 @@ public class DetailsAcitvity extends AppCompatActivity {
         Picasso.with(this).load(BASE_URL+mv.imgPath).into(poster);
         title.setText(mv.title);
         description.setText(mv.overview);
-        ratings.setText(Double.toString(mv.voteAverage)+"/10");
+        ratings.setText(Double.toString(mv.voteAverage)+getString(R.string.divide10));
         //Formatting date from yyyy-MM-dd to dd-MM-yyyy
         SimpleDateFormat releaseDateFromatter=new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         SimpleDateFormat actudalDate=new SimpleDateFormat("dd/MM/yyyy");

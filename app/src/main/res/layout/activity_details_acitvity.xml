@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textAlignment="center"
-    android:text="Sample"
+
     android:textSize="25sp"
     android:id="@+id/movie_title_tv"
     android:background="@color/colorPrimaryDark"
@@ -37,26 +37,28 @@
 
 
         android:paddingLeft="10dp"
-        android:text="Description is something calleasm dfhskasj asdflkas csdn asdaoskc alksnf jsodi aslkdjasdnaoisndnalksndalsmzndioasdnaslkd"
+        android:paddingRight="10dp"
+
         android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movie_poster" />
 
     <TextView
+        android:id="@+id/rating_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/rating_tv"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/description_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.27"
         app:layout_constraintStart_toEndOf="@+id/movie_poster"
-        app:layout_constraintTop_toBottomOf="@+id/movie_title_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/movie_title_tv"
+        app:layout_constraintVertical_bias="0.472" />
 
     <TextView
         android:id="@+id/release_date"

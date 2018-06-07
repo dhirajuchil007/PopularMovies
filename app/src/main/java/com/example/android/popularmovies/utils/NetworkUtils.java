@@ -11,10 +11,10 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtils {
-    final static String BASE_QUERY="https://api.themoviedb.org/3/discover/movie";
-    final static String SORT="sort_by";
+    private final static String BASE_QUERY="https://api.themoviedb.org/3/discover/movie";
+    private final static String SORT="sort_by";
   //  final static  String sortby="popularity.desc";
-    final static String API_KEY="api_key";
+    private final static String API_KEY="api_key";
 
     public static URL getUrl(String apikey,String sort) {
         // COMPLETED (1) Fill in this method to build the proper Github query URL

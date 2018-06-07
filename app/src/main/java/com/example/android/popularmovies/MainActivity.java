@@ -30,8 +30,8 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
-    GridView gd;
-    MovieAdapter adapter;
+    private GridView gd;
+    private MovieAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
-    public  void setupSharedPreferences(){
+    private void setupSharedPreferences(){
 
         SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(this);
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
     //Initates asynctask to get data from TMDB
-    public void getData()
+    private void getData()
     {
         String apikey=getString(R.string.api_key);
 
@@ -67,10 +67,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
     //Used to get user preference (sortby opularity of rating)
-    public String getSortFromSharedPreference(){
+    private String getSortFromSharedPreference(){
         SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
-        String sortOrder=preferences.getString(getString(R.string.sort_type_key),getString(R.string.sort_default));
-        return sortOrder;
+        return preferences.getString(getString(R.string.sort_type_key),getString(R.string.sort_default));
     }
 
     @Override
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
     //achecks if device is connectd to Internet
-    public boolean isOnline() {
+    private boolean isOnline() {
         try {
             int timeoutMs = 1500;
             Socket sock = new Socket();
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    public class GetMovies extends AsyncTask<URL,Void,MovieObject[]>{
+    public  class GetMovies extends AsyncTask<URL,Void,MovieObject[]>{
 
         @Override
         protected MovieObject[] doInBackground(URL... urls) {
