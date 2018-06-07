@@ -19,11 +19,11 @@ public class DetailsAcitvity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_acitvity);
-        ImageView poster=(ImageView)findViewById(R.id.movie_poster);
-        TextView title=(TextView) findViewById(R.id.movie_title_tv);
-        TextView description=(TextView)findViewById(R.id.description_tv);
-        TextView ratings=(TextView)findViewById(R.id.rating_tv);
-        TextView releaseDate=(TextView)findViewById(R.id.release_date);
+        ImageView poster= findViewById(R.id.movie_poster);
+        TextView title= findViewById(R.id.movie_title_tv);
+        TextView description= findViewById(R.id.description_tv);
+        TextView ratings= findViewById(R.id.rating_tv);
+        TextView releaseDate= findViewById(R.id.release_date);
         Intent i=getIntent();
         MovieObject mv= (MovieObject) i.getSerializableExtra("detailsObject");
         Picasso.with(this).load(BASE_URL+mv.imgPath).into(poster);

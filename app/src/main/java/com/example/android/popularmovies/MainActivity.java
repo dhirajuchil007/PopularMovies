@@ -1,6 +1,5 @@
 package com.example.android.popularmovies;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,12 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.utils.NetworkUtils;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
 
     }
+
     public  void setupSharedPreferences(){
 
         SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
@@ -56,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
 
     }
+    //Initates asynctask to get data from TMDB
     public void getData()
     {
         String apikey=getString(R.string.api_key);
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
 
     }
+    //Used to get user preference (sortby opularity of rating)
     public String getSortFromSharedPreference(){
         SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
         String sortOrder=preferences.getString(getString(R.string.sort_type_key),getString(R.string.sort_default));
@@ -83,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
     }
+    //achecks if device is connectd to Internet
     public boolean isOnline() {
         try {
             int timeoutMs = 1500;
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         protected void onPostExecute(final MovieObject results[]) {
             super.onPostExecute(results);
         //    Log.d("path",results[19].title);
-             gd=(GridView)findViewById(R.id.grid_view_movies);
+             gd= findViewById(R.id.grid_view_movies);
           //  Log.d("array", "onPostExecute:"+results[0].imgPath);
             //Log.d("array", "onPostExecute:"+results[1].imgPath);
             if(results!=null)

@@ -10,6 +10,7 @@
     <string name="sort_type_key">sort</string>
     <string name="sort_default">popularity.desc</string>
     <string name="no_internet_error_msg">Please check your internet connection and try again</string>
+    <string name="content_description_poster">Movie Poster</string>
 
     <!-- Strings related to Settings -->
 
