@@ -1,7 +1,10 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,22 +28,65 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     GridView gd;
+    MovieAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        String apikey=getString(R.string.api_key);
-        String ur= NetworkUtils.getUrl(apikey).toString();
-        Log.d("url",ur);
+    setupSharedPreferences();
+        getData();
+       // String apikey=getString(R.string.api_key);
+       // String ur= NetworkUtils.getUrl(apikey).toString();
+       //] Log.d("url",ur);
       //  base.setText(ur);
 
-        new GetMovies().execute(NetworkUtils.getUrl(apikey));
+
     }
+    public  void setupSharedPreferences(){
+
+        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+
+
+    }
+    public void getData()
+    {
+        String apikey=getString(R.string.api_key);
+
+
+        String sort=getSortFromSharedPreference();
+        Log.d("check", "getData: "+sort);
+        new GetMovies().execute(NetworkUtils.getUrl(apikey,sort));
+
+
+
+    }
+    public String getSortFromSharedPreference(){
+        SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
+        String sortOrder=preferences.getString(getString(R.string.sort_type_key),getString(R.string.sort_default));
+        return sortOrder;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.sort_type_key)))
+        {
+            getData();
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
     public class GetMovies extends AsyncTask<URL,Void,MovieObject[]>{
 
         @Override
@@ -101,14 +147,17 @@ public class MainActivity extends AppCompatActivity {
             Log.d("array", "onPostExecute:"+results[0].imgPath);
             Log.d("array", "onPostExecute:"+results[1].imgPath);
             if(results!=null)
-            {
-            gd.setAdapter(new MovieAdapter(results,MainActivity.this));
+            {adapter=new MovieAdapter(results,MainActivity.this);
+            gd.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
             gd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent=new Intent(MainActivity.this,DetailsAcitvity.class);
                     intent.putExtra("detailsObject",results[position]);
                     startActivity(intent);
+
                 }
             });
             }
