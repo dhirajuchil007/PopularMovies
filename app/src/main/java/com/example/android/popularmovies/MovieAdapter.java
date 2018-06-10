@@ -46,7 +46,7 @@ private LayoutInflater inflater;
 
         }
         ImageView poster = convertView.findViewById(R.id.poster);
-        Picasso.with(context).load(BASE_URL + mv[position].imgPath).into(poster);
+        Picasso.with(context).load(BASE_URL + mv[position].imgPath).placeholder(R.drawable.placeholder).error(R.drawable.placeholder_error).into(poster);
         Log.d("PIC", BASE_URL + mv[position].title.trim());
 
         return convertView;
