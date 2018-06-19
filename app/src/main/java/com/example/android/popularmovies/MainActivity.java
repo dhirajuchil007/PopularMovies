@@ -81,10 +81,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
     }
-    //achecks if device is connectd to Internet
+    //checks if device is connectd to Internet
     private boolean isOnline() {
         try {
             int timeoutMs = 1500;
+
             Socket sock = new Socket();
             SocketAddress sockaddr = new InetSocketAddress("8.8.8.8", 53);
 
@@ -130,14 +131,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     for(int i=0;i<results.length();i++)
                     {
                         JSONObject m=results.getJSONObject(i);
-                        Log.d("path",m.toString());
+
+                        int id=m.getInt("id");
+                        Log.d("idisthis",Integer.toString(id));
+
                         String title=m.getString("original_title");
                         String path=m.getString("poster_path").trim();
 
                         String overview=m.getString("overview");
                         double voteaverage=Double.parseDouble(m.getString("vote_average"));
                         String releaseDate=m.getString("release_date");
-                        androidAdapter[i]=new MovieObject(title,path,overview,voteaverage,releaseDate);
+                        androidAdapter[i]=new MovieObject(id,title,path,overview,voteaverage,releaseDate);
 
                     }
                     return androidAdapter;

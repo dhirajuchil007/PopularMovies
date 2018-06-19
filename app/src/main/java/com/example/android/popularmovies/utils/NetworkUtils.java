@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class NetworkUtils {
     private final static String BASE_QUERY="https://api.themoviedb.org/3/discover/movie";
     private final static String SORT="sort_by";
+    private final static String YOUTUBE_BASE_URL="www.youtube.com/watch";
   //  final static  String sortby="popularity.desc";
     private final static String API_KEY="api_key";
 
@@ -43,6 +44,12 @@ public class NetworkUtils {
         }
         Log.d("URL", "getUrl: "+url);
         return url;
+    }
+    public static Uri getYoutubeURL( String key){
+        Uri builtUri;
+        builtUri=Uri.parse(YOUTUBE_BASE_URL).buildUpon().appendQueryParameter("v",key).build();
+
+        return builtUri;
     }
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
