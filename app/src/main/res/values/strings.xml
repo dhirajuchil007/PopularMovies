@@ -13,6 +13,16 @@
     <string name="content_description_poster">Movie Poster</string>
     <string name="divide10">/10</string>
     <string name="trailer">Trailers &amp; More</string>
+    <string name="reviews_title">Reviews</string>
+    <string name="review_not_found">Reviews Not Found for this Movie</string>
+    <string name="fav_list" translatable="false">Favourites</string>
+    <string name="fav_label">Only Favourites</string>
+    <string name="fav_list_empty">You have not added any movies to favourites</string>
+    <string name="fav_value" translatable="false">favourites</string>
+    <string name="movie_added">Movie added to favourites</string>
+    <string name="movie_deleted">Movie removed from favourites</string>
+    <string name="device_offline">Offline</string>
+    <string name="try_again">Try Again</string>
 
     <!-- Strings related to Settings -->
 

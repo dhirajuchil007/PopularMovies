@@ -10,18 +10,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailsAcitvity">
-
+<LinearLayout
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/title_layout"
+    android:background="@color/colorPrimaryDark">
 <TextView
     android:paddingTop="@dimen/marginandpadding"
     android:paddingBottom="@dimen/marginandpadding"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="0dp"
+    android:layout_weight="6"
+    android:layout_height="50dp"
     android:textAlignment="center"
 
     android:textSize="25sp"
     android:id="@+id/movie_title_tv"
     android:background="@color/colorPrimaryDark"
     android:textColor="@android:color/white"/>
+    <ImageView
+        android:onClick="setFavourites"
+        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/favourites_icon"
+        android:src="@drawable/favourites_star_empty"
+        android:contentDescription="Favourites" />
+</LinearLayout>
 
     <ImageView
         android:contentDescription="@string/content_description_poster"
@@ -31,7 +48,7 @@
         android:layout_marginStart="@dimen/marginandpadding"
         android:layout_marginTop="@dimen/marginandpadding"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movie_title_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/title_layout" />
 
     <TextView
         android:id="@+id/description_tv"
@@ -44,6 +61,7 @@
 
         android:paddingLeft="@dimen/marginandpadding"
         android:paddingRight="@dimen/marginandpadding"
+        android:textColor="@color/textPrimary"
 
         android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,17 +72,17 @@
         android:id="@+id/rating_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/marginandpadding"
+        android:layout_marginBottom="128dp"
         android:layout_marginEnd="@dimen/marginandpadding"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="8dp"
+        android:textColor="@color/textPrimary"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/description_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintHorizontal_bias="0.373"
         app:layout_constraintStart_toEndOf="@+id/movie_poster"
-        app:layout_constraintTop_toBottomOf="@+id/movie_title_tv"
-        app:layout_constraintVertical_bias="0.472" />
+
+        />
 
     <TextView
         android:id="@+id/release_date"
@@ -72,6 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/textPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description_tv"
         android:textSize="18sp"/>
@@ -80,9 +99,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-
+        app:cardCornerRadius="8dp"
+        android:id="@+id/trailers_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/release_date">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
+            android:text="@string/device_offline"
+            android:textSize="30sp"
+            android:visibility="invisible"
+            android:id="@+id/offline_text_view"/>
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -110,6 +139,48 @@
 
         </android.support.v7.widget.RecyclerView>
 </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="8dp"
+        android:minHeight="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trailers_card">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
+            android:text="@string/device_offline"
+            android:textSize="30sp"
+            android:visibility="invisible"
+            android:id="@+id/offline_text_view_reviews"/>
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:paddingTop="@dimen/marginandpadding"
+            android:paddingBottom="@dimen/marginandpadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/reviews_title"
+            android:textSize="25sp"
+            android:id="@+id/Reviews_title"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textPrimary"
+            android:id="@+id/review_content"
+            android:padding="10dp"/>
+        </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>

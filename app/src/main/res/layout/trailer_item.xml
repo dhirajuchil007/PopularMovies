@@ -12,7 +12,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/youtube_icon"
             android:padding="10dp"
-            />
+            android:contentDescription="Youtube Icon" />
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"

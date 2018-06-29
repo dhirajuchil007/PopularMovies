@@ -20,6 +20,7 @@ private LayoutInflater inflater;
         this.context = c;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+    public MovieAdapter(){}
 
     @Override
     public int getCount() {

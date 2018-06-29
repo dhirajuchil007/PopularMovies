@@ -1,20 +1,23 @@
 package com.example.android.popularmovies;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.android.popularmovies.Database.AppDatabase;
+import com.example.android.popularmovies.Database.MovieEntry;
 import com.example.android.popularmovies.utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -26,17 +29,28 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     private GridView gd;
     private MovieAdapter adapter;
+    private AppDatabase mDb;
+    private Button tryAgain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     setupSharedPreferences();
+
+        mDb=AppDatabase.getsInstance(getApplicationContext());
+        tryAgain=findViewById(R.id.try_again_button);
+        gd= findViewById(R.id.grid_view_movies);
+        adapter=new MovieAdapter();
         getData();
        // String apikey=getString(R.string.api_key);
        // String ur= NetworkUtils.getUrl(apikey).toString();
@@ -60,12 +74,82 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
 
         String sort=getSortFromSharedPreference();
-        Log.d("check", "getData: "+sort);
-        new GetMovies().execute(NetworkUtils.getUrl(apikey,sort));
+        if(sort.equals(getString(R.string.fav_value)))
+        {
+            getFavouritesFromDb();
+        }
+        else {
+            Log.d("check", "getData: " + sort);
+            new GetMovies().execute(NetworkUtils.getUrl(apikey, sort));
+        }
 
 
 
     }
+
+    private void getFavouritesFromDb() {
+
+
+
+        if(mDb.moviesDao().loadAllMovies()==null) {
+            gd.setAdapter(null);
+            return ;
+        }
+//       LiveData<List<MovieEntry>> movies= mDb.moviesDao().loadAllMovies();
+        MainViewModel viewModel= ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<List<MovieEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<MovieEntry> movieEntries) {
+
+                ArrayList<MovieObject> mvForList=new ArrayList<>();
+                Iterator itr=movieEntries.iterator();
+
+                while(itr.hasNext())
+                {
+                    MovieEntry mvs=(MovieEntry) itr.next();
+                    mvForList.add(new MovieObject(mvs.getId(),mvs.getTitle(),mvs.getPath(),mvs.getOverView(),mvs.getVoteAverage(),mvs.getReleaseDate()));
+
+
+                }
+                final MovieObject[] m=mvForList.toArray(new MovieObject[mvForList.size()]);
+                if(m.length==0) {
+                    gd.setAdapter(null);
+                    createNoMoviesToast();
+
+                    return;
+                }
+                String sort=getSortFromSharedPreference();
+                Log.d(sort, "onChanged: "+sort);
+                if(sort.equals(getString(R.string.fav_value))) {
+                    adapter = new MovieAdapter(m, MainActivity.this);
+                    gd.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+                    gd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(MainActivity.this, DetailsAcitvity.class);
+                            intent.putExtra("detailsObject", m[position]);
+                            startActivity(intent);
+
+
+                        }
+                    });
+                }
+
+            }
+        });
+
+
+
+                                  }
+
+    private void createNoMoviesToast() {
+        Toast toast =Toast.makeText(this,getString(R.string.fav_list_empty),Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
     //Used to get user preference (sortby opularity of rating)
     private String getSortFromSharedPreference(){
         SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
@@ -74,11 +158,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals(getString(R.string.sort_type_key)))
+        if(key.equals(getString(R.string.sort_type_key))) {
+            gd.setAdapter(null);
+            getData();
+            adapter.notifyDataSetChanged();
+        }
+        if(key.equals(R.string.fav_list))
         {
             getData();
             adapter.notifyDataSetChanged();
         }
+
 
     }
     //checks if device is connectd to Internet
@@ -94,6 +184,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             return true;
         } catch (IOException e) { return false; }
+    }
+    public  void retry(View view){
+        getData();
     }
 
     @Override
@@ -168,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         protected void onPostExecute(final MovieObject results[]) {
             super.onPostExecute(results);
         //    Log.d("path",results[19].title);
-             gd= findViewById(R.id.grid_view_movies);
+
           //  Log.d("array", "onPostExecute:"+results[0].imgPath);
             //Log.d("array", "onPostExecute:"+results[1].imgPath);
             if(results!=null)
@@ -186,30 +279,21 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 }
             });
+            tryAgain.setVisibility(View.INVISIBLE
+            );
             }
             else {
                 Toast toast=Toast.makeText(MainActivity.this,getString(R.string.no_internet_error_msg),Toast.LENGTH_SHORT);
+
                 toast.show();
+                tryAgain.setVisibility(View.VISIBLE);
             }
 
         }
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater=getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.action_settings)
-        {
-            Intent intent=new Intent(MainActivity.this,SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
+
+
 }

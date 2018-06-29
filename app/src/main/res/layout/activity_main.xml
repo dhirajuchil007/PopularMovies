@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white"
+        android:text="@string/try_again"
+        android:textColor="@color/colorPrimary"
+        android:onClick="retry"
+        android:id="@+id/try_again_button"
+        android:visibility="invisible"
+
+        />
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_margin="0dp"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/colorPrimaryDark"
+
+    >
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/settings"
+        android:name="com.example.android.popularmovies.SettingsFragment"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_gravity="center"
+
+        >
+
+    </fragment>
 
     <GridView
 
@@ -17,3 +47,4 @@
     </GridView>
 
 </LinearLayout>
+</RelativeLayout>

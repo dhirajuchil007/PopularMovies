@@ -3,9 +3,11 @@
     <array name="sort_list_value">
         <item >@string/sort_default</item>
         <item>@string/top_rated_value</item>
+        <item>@string/fav_value</item>
     </array>
     <array name="sort_list_labels">
         <item>@string/sort_popularity</item>
         <item>@string/top_rated_label</item>
+        <item>@string/fav_label</item>
     </array>
 </resources>

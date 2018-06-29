@@ -29,6 +29,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if(p instanceof ListPreference)
         {
             ListPreference listPreference=(ListPreference)p;
+            
             int prefindex=listPreference.findIndexOfValue(val);
             if(prefindex>=0)
             {
